@@ -8,18 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var isImagePickerShowing = false
+    @State var selectedImage: UIImage?
     var body: some View {
         VStack {
-            Image(systemName: "globe")
+            Image(uiImage: selectedImage ?? UIImage(named: "flower1-removebg-preview")!)
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Button("Pick a photo!") {
+                isImagePickerShowing = true
+            }
         }
-        .padding()
+        .sheet(isPresented: $isImagePickerShowing) {
+            ImagePicker(selectedImage: $selectedImage, isImagePickerShowing: $isImagePickerShowing)
+                .padding()
+        }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ContentView_Previews:  PreviewProvider {
     static var previews: some View {
         ContentView()
     }
